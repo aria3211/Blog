@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block title %}List of memebers{% endblock %}
+{% block content %}
+    <p>{{ listmembers.count }} User are available</p>
+    {% for foo in listmembers %}
+        <li class="text">{{ foo }}</li>
+    {% endfor %}
+
+{% endblock %}

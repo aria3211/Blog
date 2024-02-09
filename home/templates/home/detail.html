@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %} Posts {% endblock %}
+
+{% block content %}
+    {% if  request.user.id == post.user.id %}
+    <a href="{% url 'home:post_delete' post.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'home:post_update' post.id %}" class="btn btn-info">Update</a>
+    {% endif %}
+    <p> <h3 class="post-subtitle">{{ post.user }}</h3></p>
+    {#    {{ post.user }}#}
+    {% if post.image %}
+
+        <img src="{{ post.image.url }}" alt="Card image">
+    {% endif %}
+
+    {{ post.body }}
+    <hr>
+{#    {%  %}#}
+    {% if request.user.is_authenticated %}
+        <p> If you like this post plaese comment and liked </p>
+
+            <a href="{% url 'home:like' post.id %}" class=" btn btn-{% if  unlike %}light{% else %}primary{% endif %}  col-md-2">Like{{ post.like_count }}</a><br>
+
+{#           <a href="{% url 'home:like' post.id %}" class="  col-md-2">Like{{ post.like_count }}</a><br>#}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Send">
+    </form>
+        <br>
+    {% else %}
+        <p class="alert alert-danger">Only Login user can add comment </p>
+    {% endif %}
+    <p>{{ commets.count }} Comments</p>
+
+    {% for comment in comments %}
+        <div class="card bg-dark text-white">
+
+        <p class="card-header">{{ comment.user }} | {{ comment.created|timesince }}</p>
+
+        <p class="card-body">{{ comment.body }}</p>
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'home:reply' post.id comment.id %}" method="post">
+                {% csrf_token %}
+                {{ form_relpy.as_p }}
+                <input type="submit">
+            </form>
+            {% endif %}
+        {% with replies=comment.rcomment.all %}
+        {% for reply in replies %}
+            <p class="bg-primary p-3 m-2">{{ reply.user }} | {{ reply.created|timesince }}<br>{{ reply.body }}</p>
+        {% endfor %}
+        {% endwith %}
+        </div><br>
+
+        {% empty %}
+        <p>no comments yet</p>
+    {% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home Page {% endblock %}
+
+{% block content %}
+        {% include 'inc/header.html' %}
+
+    <form class="form-inline my-2 my-lg-0" method="get">
+        {{ form }}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+
+
+
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+        {% for detail in details %}
+               <div class="auto col-sm-4 mb-3">
+
+                <div class="col card" style="width:19rem;">
+                    {% if detail.image %}
+                    <img class="card-img-top" src="{{ detail.image.url }}" alt="Card image">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title">{{detail.slug}}<h4>
+                            <p class="card-text"><a href="{% url 'Register:profile' detail.user.id %}">{{ detail.user}}</a>{{ detail.created|timesince}}</p>
+                            <a class="btn btn-primary" href="{{ detail.get_absolute_url }}">Read more</a>
+
+                    </div>
+                </div>
+                </div>
+
+        {% endfor %}
+
+    </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

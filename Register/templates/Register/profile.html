@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ username }} Profile {% endblock %}
+
+{% block content%}
+    <h2 class="text-center">{{ user }}</h2>
+
+    {% if request.user.id == user.id %}
+
+        <a href="{% url 'home:post_create' %}" class="btn btn-success">Create</a>
+    {% endif %}
+
+    {% if request.user.id != user.id and not is_following %}
+        <a href="{% url 'Register:follow' user.id %}" class="btn btn-primary">Follow</a>
+    {% elif request.user.id != user.id and is_following %}
+        <a href="{% url 'Register:unfollow' user.id %}" class="btn btn-primary">UnFollow</a>
+    {% endif %}
+
+{% for post in posts %}
+
+                    <div class="post-preview">
+{#                       #}
+                        <a href="{% url 'home:detail' post.id post.slug %}">
+                            <h2 class="post-title">{{post.slug}}<h2>
+                        </a>
+                    </div>
+{% endfor %}
+
+{% endblock %}
