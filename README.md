@@ -5,7 +5,7 @@ I made Simple blog by django , by using this user can create account,login , pos
 Clone This Project (Make Sure You Have Git Installed)
 
 ```
-git clone https://github.com/aria3211/Blog
+git clone https://github.com/aria3211/Blog.git
 ```
 
 then go to the blog directory
